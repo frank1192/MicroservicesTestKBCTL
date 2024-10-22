@@ -1,0 +1,35 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serviciofrank
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: serviciofrank
+  template:
+    metadata:
+      labels:
+        app: serviciofrank
+    spec:
+      containers:
+      - name: serviciofrank
+        image: ghcr.io/frank1192/serviciofrankt:latest
+        ports:
+        - containerPort: 7500
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: serviciofrank
+spec:
+  selector:
+    app: serviciofrank
+  ports:
+    - protocol: TCP
+      port: 7500
+      targetPort: 7500
+  type: ClusterIP

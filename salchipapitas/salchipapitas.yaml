@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salchipapitas
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: salchipapitas
+  template:
+    metadata:
+      labels:
+        app: salchipapitas
+    spec:
+      containers:
+      - name: salchipapitas
+        image: ghcr.io/frank1192/salchipapitas:latest
+        ports:
+        - containerPort: 5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: salchipapitas
+spec:
+  type: NodePort  # Agregar esta línea
+  selector:
+    app: salchipapitas
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      # Puedes añadir nodePort si quieres especificar un puerto, de lo contrario, se asignará automáticamente.
+

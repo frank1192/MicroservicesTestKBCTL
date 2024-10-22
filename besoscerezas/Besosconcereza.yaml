@@ -1,0 +1,35 @@
+# besoscerezas-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: besoscerezas
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: besoscerezas
+  template:
+    metadata:
+      labels:
+        app: besoscerezas
+    spec:
+      containers:
+      - name: besoscerezas
+        image: ghcr.io/frank1192/besosconcereza:latest
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: besoscerezas
+spec:
+  selector:
+    app: besoscerezas
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
